@@ -1,0 +1,80 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.article.recommend.mapper.UserMapper" >
+    <resultMap id="BaseResultMap" type="com.article.recommend.entity.UserInfo" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="pref_list" property="prefList" jdbcType="VARCHAR" />
+        <result column="latest_log_time" property="latestLogTime" javaType="java.util.Date"/>
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, name, pref_list, latest_log_time
+    </sql>
+
+
+    <!-- 获取所有-->
+    <select id="getAll" resultMap="BaseResultMap"  >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM tb_users
+    </select>
+    <!--  根据id查询 -->
+    <select id="getOne" parameterType="java.lang.Long" resultMap="BaseResultMap" >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM tb_users
+        WHERE id = #{id}
+    </select>
+    <!--  单笔插入 -->
+    <insert id="insert" parameterType="com.article.recommend.entity.UserInfo" >
+        INSERT INTO
+        tb_users
+        (name,pref_list,latest_log_time)
+        VALUES
+        (#{name}, #{prefList}, #{latestLogTime})
+    </insert>
+    <!-- 根据id修改信息-->
+    <update id="update" parameterType="com.article.recommend.entity.UserInfo" >
+        UPDATE
+        tb_users
+        SET
+        <if test="name != null">name = #{name}</if>
+        <if test="pref_list != null">,pref_list = #{prefList}</if>
+        <if test="latestLogTime!=null ">,latest_log_time=#{latestLogTime}</if>
+        WHERE
+        id = #{id}
+    </update>
+    <!--  根据主键删除数据 -->
+    <delete id="delete" parameterType="java.lang.Long" >
+        DELETE FROM
+        tb_users
+        WHERE
+        id =#{id}
+    </delete>
+    <!-- 获取用户编号集合 -->
+    <select id="getUserIds" resultType="java.lang.Long">
+        SELECT id FROM tb_users;
+    </select>
+    <!-- 获取用户偏好词 -->
+    <select id="getUserPrefList" resultType="com.article.recommend.entity.UserInfo" >
+
+        SELECT  id ,pref_list as prefList FROM  tb_users
+        WHERE  id in
+        <foreach collection="userIds" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+
+
+    </select>
+
+
+    <update id="updateUserPrefListById" parameterType="java.util.Map">
+        <foreach collection="list" separator=";" item="userInfo">
+            update tb_users set
+            pref_list = #{userInfo.prefList}
+            where id = #{userInfo.id}
+        </foreach>
+    </update>
+
+
+</mapper>
