@@ -1,7 +1,7 @@
 package com.article.recommend.service.user;
 
 import com.article.recommend.entity.UserInfo;
-import com.article.recommend.mapper.UserMapper;
+import com.article.recommend.mapper.bigDataMapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;

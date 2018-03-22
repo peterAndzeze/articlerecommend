@@ -1,17 +1,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.article.recommend.mapper.ArticleMapper" >
+<mapper namespace="com.article.recommend.mapper.informationmapper.ArticleMapper" >
     <resultMap id="BaseResultMap" type="com.article.recommend.entity.ArticleInfo" >
         <id column="id" property="id" jdbcType="BIGINT" />
         <result column="content" property="content" jdbcType="VARCHAR" />
-        <result column="topic_id" property="topic_id" jdbcType="BIGINT" />
+        <result column="topic_id" property="topicId" jdbcType="BIGINT" />
         <result column="release_time" property="releaseTime" javaType="java.util.Date"/>
         <result column="source_url" property="sourceUrl" jdbcType="VARCHAR"/>
         <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="article_lables" property="articleLables" jdbcType="VARCHAR"/>
 
     </resultMap>
 
     <sql id="Base_Column_List" >
-       id,content,topic_id,release_time,source_url,title
+       id,content,topic_id,release_time,source_url,title,article_lables
     </sql>
     <!-- 获取所有-->
     <select id="getAll" resultMap="BaseResultMap"  >
@@ -30,9 +31,9 @@
     <insert id="insert" parameterType="com.article.recommend.entity.ArticleInfo" >
         INSERT INTO
         tb_arctile
-        (content,topic_id,release_time,source_url,title)
+        (content,topic_id,release_time,source_url,title,article_lables)
         VALUES
-        (#{content}, #{topicId}, #{releaseTime},#{sourceUrl},#{title})
+        (#{content}, #{topicId}, #{releaseTime},#{sourceUrl},#{title},#{articleLables})
     </insert>
     <!-- 根据id修改信息-->
     <update id="update" parameterType="com.article.recommend.entity.ArticleInfo" >
@@ -54,4 +55,12 @@
         WHERE
         id =#{id}
     </delete>
+    <insert id="inserArticles" parameterType="java.util.ArrayList">
+        INSERT INTO tb_article (content,topic_id,release_time,source_url,title,article_lables)
+        VALUES
+        <foreach collection="articleInfos" item="item" separator=",">
+        (#{item.content}, #{item.topicId}, #{item.releaseTime},#{item.sourceUrl},#{item.title},#{item.articleLables})
+        </foreach>
+    </insert>
+
 </mapper>

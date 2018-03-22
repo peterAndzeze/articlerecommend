@@ -1,7 +1,8 @@
-package com.article.recommend.mapper;
+package com.article.recommend.mapper.informationmapper;
 
 import com.article.recommend.entity.ArticleInfo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -40,4 +41,11 @@ public interface ArticleMapper {
      * @param id
      */
     public void delete(Long id);
+
+    /**
+     * batch insert
+     * @param articleInfos
+     */
+    public void inserArticles(@Param("articleInfos") List<ArticleInfo> articleInfos);
+
 }

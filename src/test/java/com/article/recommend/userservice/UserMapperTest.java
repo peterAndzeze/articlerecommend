@@ -1,13 +1,12 @@
 package com.article.recommend.userservice;
 
 import com.article.recommend.entity.UserInfo;
-import com.article.recommend.mapper.UserMapper;
+import com.article.recommend.mapper.bigDataMapper.UserMapper;
 import com.article.recommend.service.user.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,8 +25,7 @@ public class UserMapperTest {
     private UserMapper userMapper;
     @Autowired
     private UserService userService;
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+
 
     @Test
     public void getUser(){
@@ -60,7 +58,7 @@ public class UserMapperTest {
         userInfo1.setPrefList(null);
         listUser.add(userInfo);
         listUser.add(userInfo1);
-        jdbcTemplate.batchUpdate(sql,setParameters(listUser));
+        //jdbcTemplate.batchUpdate(sql,setParameters(listUser));
 
     }
 

@@ -23,6 +23,7 @@ public class DateUtil {
             new SimpleDateFormat(DATE);
         }else{
             simpleDateFormat= new SimpleDateFormat(dataFormate);
+
         }
         Calendar calendar = Calendar.getInstance(); // 得到日历
         calendar.add(Calendar.DAY_OF_MONTH, -beforeDays); // 设置为前beforeNum天

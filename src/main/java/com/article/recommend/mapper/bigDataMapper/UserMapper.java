@@ -1,16 +1,16 @@
-package com.article.recommend.mapper;
+package com.article.recommend.mapper.bigDataMapper;
 
 import com.article.recommend.entity.UserInfo;
-import org.apache.catalina.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * Created by sw on 2018/3/18.
  */
-@Mapper
+@Mapper()
 public interface UserMapper {
     /**
      * 查询所有

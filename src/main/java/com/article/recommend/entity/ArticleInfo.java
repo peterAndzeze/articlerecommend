@@ -12,6 +12,15 @@ public class ArticleInfo {
     private Long topicId;//主题
     private String sourceUrl;//文章来源
     private String title;//文章标题
+    private String articleLables;//
+
+    public String getArticleLables() {
+        return articleLables;
+    }
+
+    public void setArticleLables(String articleLables) {
+        this.articleLables = articleLables;
+    }
 
     public Long getId() {
         return id;
