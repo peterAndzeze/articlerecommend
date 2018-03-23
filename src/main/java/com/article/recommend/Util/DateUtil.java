@@ -8,8 +8,8 @@ import java.util.Date;
  * 日期处理
  */
 public class DateUtil {
-    private static final String DATE="yyyy-MM-dd";
-    private static final String DATETIME="yyyy-MM-dd hh24:mm:ss";
+    public static final String DATE="yyyy-MM-dd";
+    public static final String DATETIME="yyyy-MM-dd hh24:mm:ss";
 
     /**
      * 获取多少天前日期
@@ -18,17 +18,30 @@ public class DateUtil {
      * @return
      */
     public static String getBeforeDate(int beforeDays,String dataFormate){
-        SimpleDateFormat simpleDateFormat=null;
-        if(null==dataFormate || dataFormate.equals("")){
-            new SimpleDateFormat(DATE);
-        }else{
-            simpleDateFormat= new SimpleDateFormat(dataFormate);
 
-        }
         Calendar calendar = Calendar.getInstance(); // 得到日历
         calendar.add(Calendar.DAY_OF_MONTH, -beforeDays); // 设置为前beforeNum天
         Date d = calendar.getTime();
-        return "'" + simpleDateFormat.format(d) + "'";
+        return "'" + createSimpleDateFormat(dataFormate).format(d) + "'";
     }
 
+    /**
+     * 日期转字符串
+     * @param date
+     * @param patten
+     * @return
+     */
+    public static  String dateToString(Date date,String patten){
+        return createSimpleDateFormat(patten).format(date);
+    }
+
+    protected  static  SimpleDateFormat createSimpleDateFormat(String dateFormate){
+        SimpleDateFormat simpleDateFormat=null;
+        if(null==dateFormate || dateFormate.equals("")){
+            new SimpleDateFormat(DATE);
+        }else{
+            simpleDateFormat= new SimpleDateFormat(dateFormate);
+        }
+        return simpleDateFormat;
+    }
 }

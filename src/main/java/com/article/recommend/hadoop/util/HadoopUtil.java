@@ -13,6 +13,7 @@ public class HadoopUtil {
     private static final  String HDFSHOME="hdfs://hadoop2.campus-card.com:8020";
     /**
      * 初始化hadoop环境
+     * 暂时每次都创建
      * @return
      */
     public static Configuration createHadoopConf(){

@@ -76,6 +76,16 @@
 			<artifactId>hadoop-common</artifactId>
 			<version>2.6.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.sqoop</groupId>
+			<artifactId>sqoop-core</artifactId>
+			<version>1.99.7</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.sqoop</groupId>
+			<artifactId>sqoop-client</artifactId>
+			<version>1.99.7</version>
+		</dependency>
 	</dependencies>
 
 	<build>
