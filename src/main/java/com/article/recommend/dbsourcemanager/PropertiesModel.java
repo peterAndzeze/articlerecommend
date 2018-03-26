@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 public class PropertiesModel {
     private String infromationHost;
     private String informationUser;
+    private String informationPassword;
+    private String driverClassName;
 
     public String getInfromationHost() {
         return infromationHost;
@@ -28,5 +30,19 @@ public class PropertiesModel {
         this.informationUser = informationUser;
     }
 
+    public String getDriverClassName() {
+        return driverClassName;
+    }
 
+    public void setDriverClassName(String driverClassName) {
+        this.driverClassName = driverClassName;
+    }
+
+    public String getInformationPassword() {
+        return informationPassword;
+    }
+
+    public void setInformationPassword(String informationPassword) {
+        this.informationPassword = informationPassword;
+    }
 }

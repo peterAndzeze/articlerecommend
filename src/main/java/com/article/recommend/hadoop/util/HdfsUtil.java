@@ -52,12 +52,13 @@ public class HdfsUtil {
         if(!StringUtils.isNotBlank(dir)){
             return false;
         }
-        Path newPath=new Path(path+dir);
+        Path newPath=new Path(path+File.separatorChar+dir);
         FileSystem fileSystem=null;
         try {
             fileSystem =HadoopUtil.createFileSystem(null);
             if(fileSystem.exists(newPath)){//存在文件夹
                 fileSystem.delete(newPath,true);
+                System.out.println("删除文件夹成功"+dir);
                 return true;
             }
             System.out.println("不存在文件夹："+newPath.getName());
