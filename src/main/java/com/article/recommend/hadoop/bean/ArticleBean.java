@@ -35,6 +35,9 @@ public class ArticleBean implements Writable, DBWritable {
     }
 
     public String getContent() {
+        if(null==content){
+            return "空";
+        }
         return content;
     }
 
@@ -123,7 +126,7 @@ public class ArticleBean implements Writable, DBWritable {
 
     @Override
     public String toString() {
-        return "->"+content  + "->" + release_time + "->" + topic_id + "->" + source_url +"->" + title +"->" + article_lables;
+        return "->"+id+"->"+content  + "->" + release_time + "->" + topic_id + "->" + source_url +"->" + title +"->" + article_lables+"->";
 
     }
 }

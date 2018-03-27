@@ -18,4 +18,11 @@ public final class RecommendConstant {
     public static  final String DB_USER_INFO_TYPE="1";
     /****用户操作历史数据类型******/
     public static  final String DB_USER_HISTORY_TYPE="2";
+    /**追加数据**/
+    public static  final String DATA_IMPORT_TYPE_INTO="into";
+    /**重写数据**/
+    public static  final String DATA_IMPORT_TYPE_OVERWRITE="overwrite";
+    /**文章失效天数**/
+    public static  final String ARTICLE_LOSE_TIME="article_lose_days";
+
 }

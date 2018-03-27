@@ -5,6 +5,7 @@ import com.article.recommend.constant.RecommendConstant;
 import com.article.recommend.dbsourcemanager.PropertiesModel;
 import com.article.recommend.entity.ExecuteDbRecord;
 import com.article.recommend.hadoop.bean.ArticleBean;
+import com.article.recommend.hadoop.hivedao.HiveDao;
 import com.article.recommend.hadoop.util.HadoopUtil;
 import com.article.recommend.hadoop.util.HdfsUtil;
 import com.article.recommend.service.executedbservice.ExecuteDbService;
@@ -36,6 +37,8 @@ public class ArticleDataService {
     private  ExecuteDbService executeDbService;
     @Autowired
     private PropertiesModel propertiesModel;
+    @Autowired
+    private HiveDao hiveDao;
     public static    class  DBAccessMapper extends MapReduceBase implements Mapper<LongWritable,ArticleBean,LongWritable,Text> {
 
         @Override
@@ -56,7 +59,7 @@ public class ArticleDataService {
     /**
      * 执行文章数据导入
      */
-    public    void executeDataJob() throws IOException {
+    public  void executeDataJob() throws IOException {
         Configuration configuration= HadoopUtil.createHadoopConf();
         JobConf jobConf=new JobConf(configuration);
         jobConf.setOutputKeyClass(LongWritable.class);
@@ -64,7 +67,7 @@ public class ArticleDataService {
         jobConf.setInputFormat(DBInputFormat.class);
         String[] fields={"id","content","release_time","topic_id","source_url","title","article_lables"};
         ExecuteDbRecord executeDbRecord=executeDbService.getExecuteDbRecord(RecommendConstant.DB_ARTICLE_TYPE);
-        String conditions="id between "+executeDbRecord.getLimitId()+" and 10";
+        String conditions="id between "+11+" and 20";
         String businessDate= DateUtil.dateToString(new Date(),DateUtil.DATE);
         DBInputFormat.setInput(jobConf,  ArticleBean.class,"tb_article",conditions,"id",fields);
         //DBConfiguration.configureDB(jobConf,"com.mysql.jdbc.Driver", "jdbc:mysql://localhost:3306/information?useSSL=true&useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true", "root", "admin");
@@ -77,5 +80,21 @@ public class ArticleDataService {
         JobClient.runJob(jobConf);
         //更新记录表
     }
+
+    /**
+     * 将拉取过来的数据插入到hive
+     * @param hdfsFile  数据文件
+     *
+     */
+    public  void loadDataInfoHive(String hdfsFile){
+        //hiveDao.loadDataFromFile(hdfsFile,"tb_article_info",RecommendConstant.DATA_IMPORT_TYPE_INTO);
+        String sql="select * from tb_article_info";
+        hiveDao.queryData(sql);
+    }
+
+
+
+
+
 
 }

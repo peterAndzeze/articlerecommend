@@ -6,10 +6,11 @@ package com.article.recommend.entity;
 public class ExecuteDbRecord {
     private Long id;
     private String executeType;
-    private Long limitId;
     private Long beforeId;
     private String updateTime;
     private String createTime;
+    private Integer rownums;
+
 
 
     public Long getId() {
@@ -28,13 +29,7 @@ public class ExecuteDbRecord {
         this.executeType = executeType;
     }
 
-    public Long getLimitId() {
-        return limitId;
-    }
 
-    public void setLimitId(Long limitId) {
-        this.limitId = limitId;
-    }
 
     public Long getBeforeId() {
         return beforeId;
@@ -58,5 +53,13 @@ public class ExecuteDbRecord {
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+
+    public Integer getRownums() {
+        return rownums;
+    }
+
+    public void setRownums(Integer rownums) {
+        this.rownums = rownums;
     }
 }

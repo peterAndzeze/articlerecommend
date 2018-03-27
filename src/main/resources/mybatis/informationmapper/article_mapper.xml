@@ -1,6 +1,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.article.recommend.mapper.informationmapper.ArticleMapper" >
-    <resultMap id="BaseResultMap" type="com.article.recommend.entity.ArticleInfo" >
+    <resultMap id="information_BaseResultMap" type="com.article.recommend.entity.ArticleInfo" >
         <id column="id" property="id" jdbcType="BIGINT" />
         <result column="content" property="content" jdbcType="VARCHAR" />
         <result column="topic_id" property="topicId" jdbcType="BIGINT" />
@@ -11,56 +11,21 @@
 
     </resultMap>
 
-    <sql id="Base_Column_List" >
-       id,content,topic_id,release_time,source_url,title,article_lables
-    </sql>
-    <!-- 获取所有-->
-    <select id="getAll" resultMap="BaseResultMap"  >
+
+    <select id="queryArticles" parameterType="java.util.Map" resultMap="information_BaseResultMap">
         SELECT
-        <include refid="Base_Column_List" />
-        FROM tb_article
-    </select>
-    <!--  根据id查询 -->
-    <select id="getOne" parameterType="java.lang.Long" resultMap="BaseResultMap" >
-        SELECT
-        <include refid="Base_Column_List" />
-        FROM tb_article
-        WHERE id = #{id}
-    </select>
-    <!--  单笔插入 -->
-    <insert id="insert" parameterType="com.article.recommend.entity.ArticleInfo" >
-        INSERT INTO
-        tb_arctile
-        (content,topic_id,release_time,source_url,title,article_lables)
-        VALUES
-        (#{content}, #{topicId}, #{releaseTime},#{sourceUrl},#{title},#{articleLables})
-    </insert>
-    <!-- 根据id修改信息-->
-    <update id="update" parameterType="com.article.recommend.entity.ArticleInfo" >
-        UPDATE
-        tb_article
-        SET
-        <if test="content != null">name = #{content},</if>
-        <if test="topicId != null">topic_id = #{topicId},</if>
-        <if test="releaseTime!=null ">release_time=#{releaseTime}</if>
-        <if test="sourceUrl!=null"> source_url=#{sourceUrl} </if>
-        <if test="title!=null"> title=#{title}</if>
+          id,content,topic_id,release_time,source_url,title,article_lables
+        from tb_article
         WHERE
-        id = #{id}
-    </update>
-    <!--  根据主键删除数据 -->
-    <delete id="delete" parameterType="java.lang.Long" >
-        DELETE FROM
-        tb_article
-        WHERE
-        id =#{id}
-    </delete>
-    <insert id="inserArticles" parameterType="java.util.ArrayList">
-        INSERT INTO tb_article (content,topic_id,release_time,source_url,title,article_lables)
-        VALUES
-        <foreach collection="articleInfos" item="item" separator=",">
-        (#{item.content}, #{item.topicId}, #{item.releaseTime},#{item.sourceUrl},#{item.title},#{item.articleLables})
-        </foreach>
-    </insert>
+            <![CDATA[ id > #{beforeId}  ]]>
+            AND <![CDATA[ id <= #{endId}  ]]>
+            order BY id
+          limit #{from},#{end}
+    </select>
+
+    <select id="getCount" parameterType="java.util.Map" resultType="com.article.recommend.vo.DataVo">
+        select count(1) as count,max(id) as maxId from tb_article
+        WHERE  id > #{beforeId}
+    </select>
 
 </mapper>

@@ -3,14 +3,14 @@
     <resultMap id="BaseResultMap" type="com.article.recommend.entity.ExecuteDbRecord" >
         <id column="id" property="id" jdbcType="BIGINT" />
         <result column="execute_type" property="executeType" jdbcType="VARCHAR" />
-        <result column="limit_id" property="limitId" jdbcType="BIGINT" />
         <result column="before_id" property="beforeId" jdbcType="BIGINT"/>
         <result column="update_time" property="updateTime" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
+        <result column="rownums" property="rownums"  javaType="Integer"/>
     </resultMap>
 
     <sql id="Base_Column_List" >
-       id,execute_type,limit_id,before_id
+       id,execute_type,before_id,rownums
     </sql>
     <!-- 获取所有-->
     <select id="getAll" resultMap="BaseResultMap"  >
@@ -30,22 +30,19 @@
     <insert id="insertExecuteDbRecord" parameterType="com.article.recommend.entity.ExecuteDbRecord" >
         INSERT INTO
         tb_execute_db_record
-        (execute_type,limit_id,befor_id,update_time,create_time)
+        (execute_type,befor_id,update_time,create_time)
         VALUES
-        (#{executeType}, #{limitId}, #{beforId},#{updateTime},#{createTime})
+        (#{executeType}, #{beforId},#{updateTime},#{createTime})
     </insert>
     <!-- 根据id 类型和截止编号修改信息-->
     <update id="updateExecuteDbRecord" parameterType="com.article.recommend.entity.ExecuteDbRecord" >
         UPDATE
         tb_execute_db_record
         SET
-        <if test="limitId != null">limit_id = #{limitId},</if>
         <if test="beforeId != null">before_id = #{beforeId},</if>
         <if test="updateTime!=null ">update_time=#{updateTime}</if>
-        <if test="createTime!=null"> create_time=#{createTime} </if>
         WHERE
         execute_type = #{executeType}
-        and limit_id=#{beforeId}
     </update>
 
 

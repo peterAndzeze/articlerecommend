@@ -1,10 +1,10 @@
 package com.article.recommend.article;
 
-import com.article.recommend.Util.SpringUtil;
+import com.alibaba.fastjson.JSON;
 import com.article.recommend.entity.ArticleInfo;
 import com.article.recommend.hadoop.service.ArticleDataService;
-import com.article.recommend.service.article.ArticleService;
-import com.article.recommend.service.executedbservice.ExecuteDbService;
+import com.article.recommend.mapper.informationmapper.ArticleMapper;
+import com.article.recommend.vo.DataVo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +13,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -24,12 +21,8 @@ public class ArticleServiceTest {
     @Autowired
     private ArticleDataService articleDataService;
     @Autowired
-    private ArticleService articleService;
-    @Test
-    public void getArticle(){
-        ArticleInfo articleInfo=articleService.getArticleById(5L);
-        System.out.println("************"+articleInfo.getContent()+"->"+articleInfo.getTitle());
-    }
+    private ArticleMapper articleMapper;
+
     @Test
     @Transactional
     @Rollback(false)
@@ -50,7 +43,7 @@ public class ArticleServiceTest {
                 articleInfo.setArticleLables(i + "," + (i + 1) + "," + (i - 1));
                 articleInfos.add(articleInfo);
             }
-            articleService.insertArticles(articleInfos);
+
             System.out.println("waiting start****");
             try {
                 Thread.currentThread().sleep(10000);
@@ -61,6 +54,7 @@ public class ArticleServiceTest {
         }
     }
 
+/*
     @Test
     public void executeArticleDB(){
         try {
@@ -70,6 +64,37 @@ public class ArticleServiceTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void hiveData(){
+        articleDataService.loadDataInfoHive(RecommendConstant.BASEPATH+RecommendConstant.ARTICLE_PATH+ File.separatorChar+"tmpData/part-00000");
+    }
+*/
+        @Test
+        public void queryArticles(){
+            /*List<ArticleInfo> articleInfos=articleService.queryArticles("2018-03-22",0,100);
+            System.out.println(articleInfos.size());*/
+        }
+        @Test
+        public void getCount(){
+            Map<String,Object> params=new HashMap<>();
+            params.put("beforeId","390601121");
+           DataVo dataVo=articleMapper.getCount(params);
+            System.out.println(dataVo.getCount()+"***"+dataVo.getMaxId());
+        }
+
+
+    @Test
+    public void getArticles(){
+        Map<String,Object> params=new HashMap<>();
+        params.put("limitId","0");
+        params.put("endId","1");
+        params.put("from",0);
+        params.put("end",10);
+        List<ArticleInfo> articleInfos=articleMapper.queryArticles(params);
+        System.out.println(JSON.toJSON(articleInfos));
+    }
+
 
 
 }

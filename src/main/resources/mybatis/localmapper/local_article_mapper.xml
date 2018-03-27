@@ -1,0 +1,77 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.article.recommend.mapper.localMapper.LocalArticleDataMapper" >
+
+  <!--  <insert id="inserArticles" parameterType="java.util.ArrayList">
+        INSERT INTO tb_article (content,topic_id,release_time,source_url,title,article_lables)
+        VALUES
+        <foreach collection="articleInfos" item="item" separator=",">
+            (#{item.content}, #{item.topicId}, #{item.releaseTime},#{item.sourceUrl},#{item.title},#{item.articleLables})
+        </foreach>
+    </insert>-->
+
+
+    <!-- 获取所有-->
+   <!-- <select id="getAll" resultMap="information_BaseResultMap"  >
+        SELECT
+        <include refid="information_Column_List" />
+        FROM tb_article
+    </select>-->
+    <!--  根据id查询 -->
+    <!--<select id="getOne" parameterType="java.lang.Long" resultMap="information_BaseResultMap" >
+        SELECT
+        <include refid="information_Column_List" />
+        FROM tb_article
+        WHERE id = #{id}
+    </select>-->
+    <!--  单笔插入 -->
+   <!-- <insert id="insert" parameterType="com.article.recommend.entity.ArticleInfo" >
+        INSERT INTO
+        tb_arctile
+        (content,topic_id,release_time,source_url,title,article_lables)
+        VALUES
+        (#{content}, #{topicId}, #{releaseTime},#{sourceUrl},#{title},#{articleLables})
+    </insert>-->
+    <!-- 根据id修改信息-->
+    <!--<update id="update" parameterType="com.article.recommend.entity.ArticleInfo" >
+        UPDATE
+        tb_article
+        SET
+        <if test="content != null">name = #{content},</if>
+        <if test="topicId != null">topic_id = #{topicId},</if>
+        <if test="releaseTime!=null ">release_time=#{releaseTime}</if>
+        <if test="sourceUrl!=null"> source_url=#{sourceUrl} </if>
+        <if test="title!=null"> title=#{title}</if>
+        WHERE
+        id = #{id}
+    </update>-->
+    <!--  根据主键删除数据 -->
+   <!-- <delete id="delete" parameterType="java.lang.Long" >
+        DELETE FROM
+        tb_article
+        WHERE
+        id =#{id}
+    </delete>-->
+
+
+
+      <insert id="insertLocalArticle" parameterType="java.util.ArrayList">
+        INSERT INTO tb_article (id,content,topic_id,release_time,source_url,title,article_lables)
+        VALUES
+        <foreach collection="articleInfos" item="item" separator=",">
+            (#{item.id},#{item.content}, #{item.topicId}, #{item.releaseTime},#{item.sourceUrl},#{item.title},#{item.articleLables})
+        </foreach>
+    </insert>
+
+    <delete id="deleteLoseArticleData" parameterType="java.lang.String">
+        DELETE  from tb_article where  <![CDATA[ release_time <= #{businessDate}  ]]>
+    </delete>
+
+
+    <insert id="insertLoseArticleData" parameterType="java.lang.String">
+         insert into tb_article_history
+          select * from tb_article where
+        <![CDATA[ release_time = #{businessDate}  ]]>
+    </insert>
+
+
+</mapper>
