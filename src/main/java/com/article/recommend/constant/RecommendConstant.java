@@ -24,5 +24,19 @@ public final class RecommendConstant {
     public static  final String DATA_IMPORT_TYPE_OVERWRITE="overwrite";
     /**文章失效天数**/
     public static  final String ARTICLE_LOSE_TIME="article_lose_days";
+    /*********定时任务***********************/
+    /**文章定时任务**/
+    public static final String QUARTZ_TYPE_ARTICLE="quartz_article";
+
+    /*********定时任务***********************/
+
+    /*********系统数据统一状态***********************/
+    //有效
+    public static final String SYSTEM_DATE_EFFECTIVE="0";
+    //无效
+    public static final String SYSTEM_DATE_INVALID="1";
+
+    /*********系统数据统一状态***********************/
+
 
 }

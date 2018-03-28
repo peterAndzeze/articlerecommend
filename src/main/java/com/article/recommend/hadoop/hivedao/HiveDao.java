@@ -1,3 +1,4 @@
+/*
 package com.article.recommend.hadoop.hivedao;
 
 import com.alibaba.fastjson.JSON;
@@ -9,12 +10,14 @@ import org.springframework.stereotype.Service;
 
 import java.sql.*;
 
+*/
 /**
  * hive链接工具类
  *
  * 暂时不考虑资源消耗、并发执行等问题
  *
- */
+ *//*
+
 @Component
 public class HiveDao {
     @Autowired
@@ -29,13 +32,15 @@ public class HiveDao {
         return con;
     }
 
-    /**
+    */
+/**
      * 创建表
      * @param table 表名
      * @param columns 列名
      * @param dataType 数据类型
      * @param splitChar 分割符
-     */
+     *//*
+
     public  void createTable(String table,String [] columns ,String [] dataType,String splitChar)  {
         StringBuilder stringBuilder=new StringBuilder();
         stringBuilder.append("create table " +table+"(");
@@ -64,12 +69,14 @@ public class HiveDao {
         }
     }
 
-    /**
+    */
+/**
      * 导入数据进入hive
      * @param hdfsFile 数据文件
      * @param table hive表
      * @param type 导入类型（覆盖、追加）
-     */
+     *//*
+
     public void  loadDataFromFile(String hdfsFile,String table ,String type){
         String sql="load data  inpath '"+hdfsFile+"' "+type+" table "+table;
         System.out.println(sql+"**********");
@@ -87,10 +94,12 @@ public class HiveDao {
         }
     }
 
-    /**
+    */
+/**
      * 执行数据查询
      * @param sql
-     */
+     *//*
+
     public void queryData(String sql){
         Connection con=null;
         PreparedStatement statement=null;
@@ -110,10 +119,12 @@ public class HiveDao {
         }
     }
 
-    /**
+    */
+/**
      * 删除table
      * @param table
-     */
+     *//*
+
     public void dropTable(String table){
         Connection con=null;
         PreparedStatement statement=null;
@@ -128,12 +139,14 @@ public class HiveDao {
             closeHiveJdbc(con,statement,null);
         }
     }
-    /**
+    */
+/**
      * 关闭资源
      * @param con
      * @param stmt
      * @param rs
-     */
+     *//*
+
     protected  void closeHiveJdbc(Connection con,PreparedStatement stmt,ResultSet rs){
         try {
             if (null != con) {
@@ -150,9 +163,11 @@ public class HiveDao {
         }
     }
 
-    /**
+    */
+/**
      * 获取所有表信息
-     */
+     *//*
+
     public void showTables() {
         ResultSet rs = null;
         PreparedStatement stmt=null;
@@ -173,7 +188,8 @@ public class HiveDao {
         }
     }
 
-   /* public    void initConnection(){
+   */
+/* public    void initConnection(){
         try {
             if(con!=null && !con.isClosed()){
                 con.close();
@@ -191,7 +207,8 @@ public class HiveDao {
     }
 
 
-    */
+    *//*
+
 
     public static void main(String[] args) {
         StringBuilder stringBuilder=new StringBuilder();
@@ -199,3 +216,4 @@ public class HiveDao {
         System.out.println(stringBuilder.substring(0,stringBuilder.lastIndexOf(",")));
     }
 }
+*/

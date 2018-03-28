@@ -1,3 +1,4 @@
+/*
 package com.article.recommend.hive;
 
 import com.article.recommend.ArticlerecommendApplicationTests;
@@ -22,3 +23,4 @@ public class HiveTest extends ArticlerecommendApplicationTests {
     }
 }
 
+*/

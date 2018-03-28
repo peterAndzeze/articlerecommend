@@ -1,3 +1,4 @@
+/*
 package com.article.recommend.hadoop.service;
 
 import com.article.recommend.constant.RecommendConstant;
@@ -6,13 +7,17 @@ import org.apache.sqoop.model.MLink;
 import org.apache.sqoop.model.MLinkConfig;
 import org.apache.sqoop.validation.Status;
 
+*/
 /**
  * sqoop 服务。操作mysql数据库和hdfs 数据
- */
+ *//*
+
 public class SqoopService {
-    /**
+    */
+/**
      * 初始化sqoop环境
-     */
+     *//*
+
     public static   void initSqoopEnv(){
         SqoopClient sqoopClient=new SqoopClient(RecommendConstant.HDFSBASEPATH);
         MLink link=sqoopClient.createLink("db");
@@ -34,3 +39,4 @@ public class SqoopService {
         initSqoopEnv();
     }
 }
+*/

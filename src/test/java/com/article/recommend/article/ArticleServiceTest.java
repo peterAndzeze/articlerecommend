@@ -2,7 +2,6 @@ package com.article.recommend.article;
 
 import com.alibaba.fastjson.JSON;
 import com.article.recommend.entity.ArticleInfo;
-import com.article.recommend.hadoop.service.ArticleDataService;
 import com.article.recommend.mapper.informationmapper.ArticleMapper;
 import com.article.recommend.vo.DataVo;
 import org.junit.Test;
@@ -18,8 +17,7 @@ import java.util.*;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class ArticleServiceTest {
-    @Autowired
-    private ArticleDataService articleDataService;
+
     @Autowired
     private ArticleMapper articleMapper;
 

@@ -1,3 +1,4 @@
+/*
 package com.article.recommend.hadoop.service;
 
 import com.article.recommend.Util.DateUtil;
@@ -28,9 +29,11 @@ import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.Iterator;
 
+*/
 /**
  * 文章数据操作
- */
+ *//*
+
 @Service
 public class ArticleDataService {
     @Autowired
@@ -56,9 +59,11 @@ public class ArticleDataService {
         }
     }
 
-    /**
+    */
+/**
      * 执行文章数据导入
-     */
+     *//*
+
     public  void executeDataJob() throws IOException {
         Configuration configuration= HadoopUtil.createHadoopConf();
         JobConf jobConf=new JobConf(configuration);
@@ -81,11 +86,13 @@ public class ArticleDataService {
         //更新记录表
     }
 
-    /**
+    */
+/**
      * 将拉取过来的数据插入到hive
      * @param hdfsFile  数据文件
      *
-     */
+     *//*
+
     public  void loadDataInfoHive(String hdfsFile){
         //hiveDao.loadDataFromFile(hdfsFile,"tb_article_info",RecommendConstant.DATA_IMPORT_TYPE_INTO);
         String sql="select * from tb_article_info";
@@ -98,3 +105,4 @@ public class ArticleDataService {
 
 
 }
+*/
