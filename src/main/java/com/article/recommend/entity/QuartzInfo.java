@@ -7,6 +7,17 @@ public class QuartzInfo {
     private String type;
     private String cron;
     private String state;
+    private String group;
+    private String isRun;
+    private String className;
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
+    }
 
     public Long getId() {
         return id;
@@ -38,5 +49,21 @@ public class QuartzInfo {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public String getIsRun() {
+        return isRun;
+    }
+
+    public void setIsRun(String isRun) {
+        this.isRun = isRun;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
     }
 }

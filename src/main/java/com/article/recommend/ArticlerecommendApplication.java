@@ -1,5 +1,6 @@
 package com.article.recommend;
 
+import com.article.recommend.Util.SpringUtil;
 import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

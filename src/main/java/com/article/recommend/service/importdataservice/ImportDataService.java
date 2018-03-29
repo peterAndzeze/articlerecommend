@@ -67,6 +67,10 @@ public class ImportDataService {
 
     }
 
+    public void testMethod(){
+        System.out.println("job注入spring注解类的方法执行");
+    }
+
     public static void main(String[] args) {
         Integer rowNum=1000;
         Integer count=2;

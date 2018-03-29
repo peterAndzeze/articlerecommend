@@ -13,13 +13,12 @@
 
 <div id="quartz" style="width: 50%;height: auto;background-color: aqua;">
         <!--/*@thymesVar id="quartzInfo" type="com.article.recommend.entity.QuartzInfo"*/-->
-        <form   method="post" th:action="@{/updateQuartz}">
-            <p> 编号：<input th:name="@{id}" th:value="${quartzInfo.id}" /> </p>
-            <p> 类型：<input th:name="@{type}" th:value="${quartzInfo.type}"/> </p>
-            <p> 类型：<input th:name="@{group}" th:value="${quartzInfo.group}"/> </p>
-            <p> 类型：<input th:name="@{className}" th:value="${quartzInfo.className}"/> </p>
-            <p> cron: <input th:name="@{cron}" th:value="${quartzInfo.cron}"/> </p>
-            <p> 状态： <input  th:name="@{state}" th:value="${quartzInfo.state}"/> </p>
+        <form   method="post" th:action="@{/saveQuartz}">
+            <p> 类 型：<input th:name="@{type}"/> </p>
+            <p> 所在组：<input th:name="@{group}"/> </p>
+            <p> 类 名：<input th:name="@{className}"/> </p>
+            <p> cron: <input th:name="@{cron}"/> </p>
+            <p> 是否直接执行: <input th:name="@{isRun}"/></p>
             <p><input type="submit" value="保存" /> <input type="reset" value="重置" /></p>
 
         </form>

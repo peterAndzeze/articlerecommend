@@ -5,19 +5,22 @@
         <result column="type" property="type" jdbcType="VARCHAR" />
         <result column="cron" property="cron" jdbcType="VARCHAR"/>
         <result column="state" property="state" jdbcType="VARCHAR"/>
+        <result column="group" property="group" jdbcType="VARCHAR"/>
+        <result column="is_run" property="isRun" jdbcType="VARCHAR"/>
+        <result column="class_name" property="className" jdbcType="VARCHAR"/>
     </resultMap>
 
 
    <select id="getQuartzInfos" resultMap="BaseResultMap">
        select
-         id,type,cron,state
+         id,`type`,cron,state,`group`,is_run,class_name
        FROM  tb_quartz_info
    </select>
 
 
     <select id="getQuartzInfoById" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
-        id,type,cron,state
+        id,`type`,cron,state,`group`,is_run,class_name
         FROM  tb_quartz_info
         where id=#{id}
     </select>
@@ -28,9 +31,29 @@
 
         <if test="null!=state">state=#{state},</if>
         <if test="null!=cron">cron=#{cron},</if>
+            <if test="null!=className">class_name=#{className},</if>
+            <if test="null!=isRun">is_run=#{isRun},</if>
         </trim>
         where id=#{id}
     </update>
 
+
+    <update id="updateQuartzIsRun" parameterType="com.article.recommend.entity.QuartzInfo">
+        update tb_quartz_info
+        is_run=#{isRun}
+        where id=#{id}
+    </update>
+
+    <insert id="inserQuartz" parameterType="com.article.recommend.entity.QuartzInfo">
+         INSERT INTO
+        tb_quartz_info
+        (`type`,cron,state,`group`,is_run,class_name)
+        VALUES
+        (#{type}, #{cron},#{state},#{group},#{isRun},#{className})
+    </insert>
+
+    <delete id="deleteQuartz" parameterType="java.lang.Long" >
+      DELETE  FROM  tb_quartz_info WHERE  id=#{id}
+    </delete>
 
 </mapper>

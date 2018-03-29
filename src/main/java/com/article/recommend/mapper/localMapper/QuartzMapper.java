@@ -27,5 +27,17 @@ public interface QuartzMapper {
      */
     public void updateQuartz(QuartzInfo quartzInfo);
 
+    /**
+     * 新增
+     * @param quartzInfo
+     */
+    public void inserQuartz(QuartzInfo quartzInfo);
+
+    /**
+     * 删除
+     * @param id
+     */
+    public void deleteQuartz(Long id);
+
 }
 
