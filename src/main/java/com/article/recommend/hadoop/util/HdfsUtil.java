@@ -5,6 +5,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;
 import org.apache.hadoop.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.URI;
@@ -14,6 +16,7 @@ import java.util.Optional;
  * hdfs 工具类
  */
 public class HdfsUtil {
+    private static  final Logger logger= LoggerFactory.getLogger(HdfsUtil.class);
     /**
      * 创建文件夹
      * @param dirName 文件夹名称
@@ -32,8 +35,10 @@ public class HdfsUtil {
                 fs.mkdirs(newPath);
                 return true;
             }
+            logger.info("文件夹已存在{}",dirName);
            return false;
         } catch (IOException e) {
+            logger.error("创建文件夹{}{}:{}",dirName,"失败",e.getMessage());
             e.printStackTrace();
             return false;
         }finally {
@@ -58,13 +63,13 @@ public class HdfsUtil {
             fileSystem =HadoopUtil.createFileSystem(null);
             if(fileSystem.exists(newPath)){//存在文件夹
                 fileSystem.delete(newPath,true);
-                System.out.println("删除文件夹成功"+dir);
+                logger.info("成功删除文件夹{}"+dir);
                 return true;
             }
-            System.out.println("不存在文件夹："+newPath.getName());
+            logger.info("不存在文件夹{}",newPath.getName());
             return false;
         }catch (Exception e){
-            System.out.println("删除文件夹异常："+e.getMessage());
+           logger.error("删除文件夹{}异常:{}",newPath.getName(),e.getMessage());
             e.printStackTrace();
             return false;
         }finally {
@@ -87,14 +92,14 @@ public class HdfsUtil {
         FileSystem fileSystem=null;
         FSDataOutputStream fsDataOutputStream=null;
         try{
-            System.out.println(newFile);
             fileSystem=HadoopUtil.createFileSystem(null);
             fsDataOutputStream=fileSystem.create(new Path(newFile));
             byte [] buff=content.getBytes("utf-8");
             fsDataOutputStream.write(buff,0,buff.length);
+            logger.info("成功新建文件{}",newFile);
             return true;
         }catch (Exception e){
-            System.out.println("创建文件异常:"+e.getMessage());
+           logger.error("创建文件{}异常:{}",newFile,e.getMessage());
             e.printStackTrace();
             return false;
         }finally {
@@ -131,11 +136,12 @@ public class HdfsUtil {
                     out.close();
                     in.close();
                     fs.close();
-                    return true;
+                logger.info("成功追加内容到{}",hdfsFile);
+                return true;
             }
             return false;
         }catch (Exception e){
-            System.out.println("追加文件内容异常："+e.getMessage());
+            logger.error("{}追加内容异常:{}",hdfsFile,e.getMessage());
             e.printStackTrace();
             return false;
         }finally {
@@ -169,9 +175,11 @@ public class HdfsUtil {
             IOUtils.copyBytes(bufferedInputStream,bufferedOutputStream,4096,true);
             bufferedInputStream.close();
             bufferedOutputStream.close();
+            logger.error("{}追加到{}成功",filePaht,hdfsFile);
+
             return true;
         }catch (Exception e){
-            System.out.println("追加文件到文件失败："+e.getMessage());
+            logger.error("{}追加到{}异常:{}",filePaht,hdfsFile,e.getMessage());
             e.printStackTrace();
             return false;
         }finally {
@@ -198,12 +206,13 @@ public class HdfsUtil {
                 FileStatus fileStatus=fileSystem.getFileStatus(newPath);
                 byte [] buff=new byte[Integer.parseInt(String.valueOf(fileStatus.getLen()))];
                 fsDataInputStream.readFully(0,buff);
+                logger.info("读取{}内容成功",hdfsFile);
                 return new String(buff,"UTF-8");
             }
-            System.out.println("不存在");
+            logger.info("{}不存在",hdfsFile);
             return null;
         }catch (Exception e){
-            System.out.println("读取文件:"+hdfsFile+"失败:"+e.getMessage());
+            logger.error("读取文件{}失败:{}",hdfsFile,e.getMessage());
             e.printStackTrace();
             return  null;
         }finally {
@@ -225,8 +234,9 @@ public class HdfsUtil {
         try {
             FileUtil.copyMerge(src.getFileSystem(conf), src,
                     dst.getFileSystem(conf), dst, false, conf, null);
+            logger.info("合并{}成功",folder);
         } catch (IOException e) {
-            System.out.println("合并文件失败:"+e.getMessage());
+            logger.error("合并文件{}失败:{}",folder,e.getMessage());
             e.printStackTrace();
         }
     }
@@ -244,9 +254,10 @@ public class HdfsUtil {
         try{
             fileSystem=HadoopUtil.createFileSystem(null);
             Path dst = new Path(hdfsFile);
+            logger.info("删除{}成功",hdfsFile);
             return fileSystem.delete(dst,false);
         }catch (Exception e){
-            System.out.println("删除异常:"+e.getMessage());
+            logger.error("删除{}异常:{}",hdfsFile,e.getMessage());
             e.printStackTrace();
             return false;
         }finally {
@@ -270,7 +281,7 @@ public class HdfsUtil {
                 fsDataInputStream.close();
             }
         }catch (IOException e){
-            System.out.println("关闭文件输入输出流异常:"+e.getMessage());
+            logger.error("关闭文件输入输出流异常:{}",e.getMessage());
             e.printStackTrace();
         }
     }
@@ -292,7 +303,7 @@ public class HdfsUtil {
             fileSystem.copyFromLocalFile(localFilePath,hdfsFilePaht);
             return true;
         }catch (Exception e){
-            System.out.println("copy失败："+e.getMessage());
+           logger.error("copy失败："+e.getMessage());
             e.printStackTrace();
             return  false;
         }finally {
@@ -310,7 +321,8 @@ public class HdfsUtil {
             try {
                 fileSystem.close();
             } catch (IOException e) {
-                System.out.println("关闭文件系统异常:"+e.getMessage());
+                logger.error("关闭文件系统异常:{}",e.getMessage());
+                logger.error("关闭文件系统异常:"+e.getMessage());
                 e.printStackTrace();
             }
         }

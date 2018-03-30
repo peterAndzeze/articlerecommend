@@ -5,6 +5,8 @@ import com.article.recommend.constant.RecommendConstant;
 import com.article.recommend.entity.DictionaryInfo;
 import com.article.recommend.mapper.localMapper.DictionaryMapper;
 import com.article.recommend.mapper.localMapper.LocalArticleDataMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -17,6 +19,7 @@ import java.util.Date;
  */
 @Service
 public class HistoryDataService {
+    private  final static Logger logger= LoggerFactory.getLogger(HistoryDataService.class);
     @Autowired
     private DictionaryMapper dictionaryMapper;
     @Autowired
@@ -30,7 +33,7 @@ public class HistoryDataService {
         //获取失效天数
         int loseDays=Integer.valueOf(dictionaryInfo.getValue());
         String businessDate= DateUtil.getBeforeDate(6,DateUtil.DATE);
-        System.out.println("删除数据日期:"+businessDate);
+        logger.info("删除数据日期:"+businessDate);
         //插入历史数据
         localArticleDataMapper.insertLoseArticleData(businessDate);
         localArticleDataMapper.deleteLoseArticleData(businessDate);

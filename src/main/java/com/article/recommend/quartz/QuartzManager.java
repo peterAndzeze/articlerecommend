@@ -118,6 +118,11 @@ public class QuartzManager {
     public void addJob(String className,String group,String cron,String isRun){
         try {
            log.info("scheduler 是否启动:"+scheduler.isStarted());
+           boolean isExists=scheduler.checkExists(new JobKey(className,group));
+           if(isExists){
+               log.info("已经存在***");
+               return ;
+           }
             //启动调度器
             if( !scheduler.isStarted()){
                 scheduler.start();
@@ -151,4 +156,10 @@ public class QuartzManager {
         Class<?> class1 = Class.forName(classname);
         return (BaseJob)class1.newInstance();
     }
+
+   /* public String getJobState(String className,String group){
+        JobDetail jobDetail=scheduler.getJobDetail(new JobKey(className,group));
+        jobDetail.
+    }*/
+
 }

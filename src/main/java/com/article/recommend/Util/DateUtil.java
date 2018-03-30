@@ -61,9 +61,4 @@ public class DateUtil {
         return simpleDateFormat;
     }
 
-    public static void main(String[] args) {
-        String date="2018-05-01 13:21:22";
-        System.out.println(stringToDate(date,DATETIME));
-        System.out.println(dateToString(stringToDate(date,DATETIME),DATETIME));
-    }
 }

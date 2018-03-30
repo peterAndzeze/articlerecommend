@@ -3,6 +3,8 @@ package com.article.recommend.hadoop.util;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
@@ -10,6 +12,7 @@ import java.io.IOException;
  * hadoop 基类负责hadoop环境的初始化操作
  */
 public class HadoopUtil {
+    private final static Logger logger= LoggerFactory.getLogger(HadoopUtil.class);
     private static final  String HDFSHOME="hdfs://hadoop2.campus-card.com:8020";
     /**
      * 初始化hadoop环境
@@ -35,12 +38,12 @@ public class HadoopUtil {
         Path path=new Path(HDFSHOME);
         try {
             if(null ==configuration){
-                return  FileSystem.get(createHadoopConf());
-            }else{
-                return FileSystem.get(configuration);
+               configuration=createHadoopConf();
             }
+            logger.info("初始化hadoop环境成功");
+            return FileSystem.get(configuration);
         } catch (IOException e) {
-            System.out.println("初始化hadoop环境异常:"+e.getMessage());
+            logger.error("初始化hadoop环境异常,{}"+e.getMessage());
             e.printStackTrace();
         }
         return null;
