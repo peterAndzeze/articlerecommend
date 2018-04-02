@@ -164,6 +164,10 @@
 					<artifactId>commons-lang</artifactId>
 					<groupId>commons-lang</groupId>
 				</exclusion>
+				<exclusion>
+					<artifactId>commons-math3</artifactId>
+					<groupId>org.apache.commons</groupId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<!--<dependency>
@@ -198,6 +202,10 @@
 			<artifactId>fastjson</artifactId>
 			<version>1.2.46</version>
 		</dependency>
+
+		<!-- mahout -->
+
+
 	</dependencies>
 
 	<build>
