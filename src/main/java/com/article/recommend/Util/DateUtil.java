@@ -61,4 +61,25 @@ public class DateUtil {
         return simpleDateFormat;
     }
 
+    /**
+     *
+     * @param beginTime
+     * @param endTime
+     * @return
+     */
+    public static int compareDateStr(String beginTime,String endTime) throws ParseException {
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+
+            Date bt=sdf.parse(beginTime);
+            Date et=sdf.parse(endTime);
+            if (bt.getTime()>et.getTime()){//大于
+                return 1;
+            }else if(bt.getTime()<et.getTime()){//小于
+                return -1;
+            }else {//等于
+                return  0;
+            }
+
+    }
+
 }

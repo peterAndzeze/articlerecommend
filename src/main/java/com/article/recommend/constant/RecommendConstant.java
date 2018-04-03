@@ -8,6 +8,14 @@ public final class RecommendConstant {
 
     /***文章存放路径**/
     public static final String ARTICLE_PATH="articleinfo";
+    /***用户行为数据****/
+    public  static  final String USERPREFS_PATH="userprefs";
+    /***用户有效数据****/
+    public  static  final String USERPREFS_DATA_PATH="data";
+    /***用户无效数据****/
+    public  static  final String USERPREFS_LOSEDATA_PATH="loseData";
+
+
     /***用户操作历史***/
     public static final String USER_HAND_HISTORY_PATH="userhandhistory";
     /** hdfs 执行数据导入后生成的默认文件**/

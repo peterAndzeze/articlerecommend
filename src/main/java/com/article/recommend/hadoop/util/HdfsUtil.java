@@ -15,7 +15,7 @@ import java.util.Optional;
 /**
  * hdfs 工具类
  */
-public class HdfsUtil {
+public final class HdfsUtil {
     private static  final Logger logger= LoggerFactory.getLogger(HdfsUtil.class);
     /**
      * 创建文件夹
@@ -49,21 +49,20 @@ public class HdfsUtil {
 
     /**
      * 删除文件夹
-     * @param dir 要删除的文件夹
      * @param path 文件夹路径
      * @return 删除结果
      */
-    public static boolean deleteDir(String dir,String path){
-        if(!StringUtils.isNotBlank(dir)){
+    public static boolean deleteDir(String path){
+        if(!StringUtils.isNotBlank(path)){
             return false;
         }
-        Path newPath=new Path(path+File.separatorChar+dir);
+        Path newPath=new Path(path);
         FileSystem fileSystem=null;
         try {
             fileSystem =HadoopUtil.createFileSystem(null);
             if(fileSystem.exists(newPath)){//存在文件夹
                 fileSystem.delete(newPath,true);
-                logger.info("成功删除文件夹{}"+dir);
+                logger.info("成功删除文件夹{}",path);
                 return true;
             }
             logger.info("不存在文件夹{}",newPath.getName());
@@ -227,19 +226,26 @@ public class HdfsUtil {
      * @param folder 需要合并的目录
      * @param file  要合并成的文件，完整路径名称
      */
-    public void copyMerge(String folder, String file) {
+    public static void copyMerge(String folder, String file) {
         Configuration conf =HadoopUtil.createHadoopConf();
         Path src = new Path(folder);
         Path dst = new Path(file);
+        //如果存在就删除
+        delHdfs(file);
         try {
+            System.out.println("开始时间："+System.currentTimeMillis());
             FileUtil.copyMerge(src.getFileSystem(conf), src,
                     dst.getFileSystem(conf), dst, false, conf, null);
             logger.info("合并{}成功",folder);
+            System.out.println("结束时间："+System.currentTimeMillis());
+
         } catch (IOException e) {
             logger.error("合并文件{}失败:{}",folder,e.getMessage());
             e.printStackTrace();
         }
     }
+
+
 
     /**
      * 删除hdfs文件
@@ -266,6 +272,25 @@ public class HdfsUtil {
 
     }
 
+    /**
+     * 下载hdfs文件到本地
+     * @param hdfsFile
+     * @param localFile
+     */
+    public static  void downFile(String hdfsFile,String localFile){
+        FileSystem fileSystem=null;
+        try{
+            fileSystem=HadoopUtil.createFileSystem(null);
+            FSDataInputStream fsdi = fileSystem.open(new Path(hdfsFile));
+            OutputStream output = new FileOutputStream(localFile);
+            IOUtils.copyBytes(fsdi,output,4096,true);
+        }catch (Exception e){
+            logger.error("下载文件{},异常:{}",hdfsFile,e.getMessage());
+            e.printStackTrace();
+        }finally {
+            closeFileSystem(fileSystem);
+        }
+    }
 
     /**
      * 关闭文件流
@@ -301,6 +326,7 @@ public class HdfsUtil {
         try {
             fileSystem =HadoopUtil.createFileSystem(null);
             fileSystem.copyFromLocalFile(localFilePath,hdfsFilePaht);
+            logger.info("上传{},到{},成功",fileName,hdfsFilePaht);
             return true;
         }catch (Exception e){
            logger.error("copy失败："+e.getMessage());
@@ -311,6 +337,55 @@ public class HdfsUtil {
         }
     }
 
+    /**
+     * 路径下有多少个文件
+     * @param hdfsPath
+     */
+    public static  FileStatus[] getFiles(String hdfsPath){
+        FileStatus[] inputFiles =null;
+        FileSystem fileSystem=null;
+        try {
+            fileSystem= HadoopUtil.createFileSystem(null);
+            inputFiles =fileSystem.listStatus(new Path(hdfsPath));
+        } catch (IOException e) {
+            logger.error("获取{}子集失败:{}",hdfsPath,e.getMessage());
+
+            e.printStackTrace();
+        }finally {
+            closeFileSystem(fileSystem);
+        }
+
+        if(inputFiles.length>0){//测试打开
+            for (int i=0;i<inputFiles.length;i++){
+                if(inputFiles[i].isDirectory()){//文件夹
+                    System.out.println("文件夹："+inputFiles[i].getPath().getName());
+                }else if(inputFiles[i].isFile()){//文件
+                    System.out.println("文件:"+inputFiles[i].getPath().getName());
+                }
+            }
+        }
+        return inputFiles;
+    }
+
+    /**
+     * 移动文件
+     * @param moFile
+     * @param toFile
+     */
+    public static  void moveFile(String moFile,String toFile){
+        FileSystem fileSystem=null;
+        try{
+            fileSystem=HadoopUtil.createFileSystem(null);
+            fileSystem.rename(new Path(moFile),new Path(toFile));
+            logger.info("移动文件{},到:{}成功",moFile,moFile);
+
+        }catch (Exception e){
+            logger.error("移动文件{},异常:{}",moFile,e.getMessage());
+            e.printStackTrace();
+        }finally {
+            closeFileSystem(fileSystem);
+        }
+    }
 
     /**
      * 关闭文件系统实例
