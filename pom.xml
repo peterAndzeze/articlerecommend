@@ -137,14 +137,14 @@
 					<artifactId>guava</artifactId>
 					<groupId>com.google.guava</groupId>
 				</exclusion>
-				<exclusion>
+				<!--<exclusion>
 					<artifactId>servlet-api</artifactId>
 					<groupId>javax.servlet</groupId>
-				</exclusion>
-				<exclusion>
+				</exclusion>-->
+				<!--<exclusion>
 					<artifactId>jersey-core</artifactId>
 					<groupId>com.sun.jersey</groupId>
-				</exclusion>
+				</exclusion>-->
 				<exclusion>
 					<artifactId>jackson-core-asl</artifactId>
 					<groupId>org.codehaus.jackson</groupId>

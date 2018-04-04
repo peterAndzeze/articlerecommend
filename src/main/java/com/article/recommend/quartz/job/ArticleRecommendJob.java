@@ -3,6 +3,7 @@ package com.article.recommend.quartz.job;
 import com.article.recommend.Util.DateUtil;
 import com.article.recommend.constant.RecommendConstant;
 import com.article.recommend.hadoop.util.HdfsUtil;
+import com.article.recommend.recommend.RecommendFactory;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.Hdfs;
 import org.apache.mahout.cf.taste.impl.model.file.FileDataModel;
@@ -36,6 +37,7 @@ public class ArticleRecommendJob //implements BaseJob
         //2.合并文件 tmp下
          HdfsUtil.copyMerge(dataPath,tmp);
         //3.下载下来,执行推荐操作
+
     }*/
 
     /**
@@ -58,6 +60,15 @@ public class ArticleRecommendJob //implements BaseJob
                    HdfsUtil.moveFile(dataPath+"/"+fileName,movePath+"/"+fileName);
             }
         }
+    }
+
+    /**
+     * 数据文件
+     * @param dataFile
+     */
+    protected  void executeRecommend(String dataFile) throws IOException {
+        DataModel dataModel= RecommendFactory.buildDateMode(dataFile);
+
     }
 
     public static void main(String[] args) {

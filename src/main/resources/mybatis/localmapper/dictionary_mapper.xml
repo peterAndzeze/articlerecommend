@@ -8,6 +8,10 @@
         <result column="key" property="key" jdbcType="VARCHAR"/>
     </resultMap>
 
+   <select id="queryDictionarys" resultMap="BaseResultMap">
+       select id,display,`value`,state,`key`
+       FROM tb_dictionary
+   </select>
 
    <select id="getDictionaryByKey" parameterType="java.lang.String" resultMap="BaseResultMap">
        select
@@ -16,6 +20,21 @@
        WHERE  `key`=#{key}
              AND  state='0'
    </select>
+   <select id="getDictionayById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+       select id,display,`value`,state,`key`
+       FROM  tb_dictionary
+       WHERE id=#{id}
 
+   </select>
+
+<update id="updateDictionary" parameterType="com.article.recommend.entity.DictionaryInfo">
+    UPDATE
+    tb_dictionary
+    SET
+    <if test="value != null">`value` = #{value},</if>
+    <if test="key!=null">`key`= #{key}</if>
+    WHERE
+       id=#{id}
+</update>
 
 </mapper>

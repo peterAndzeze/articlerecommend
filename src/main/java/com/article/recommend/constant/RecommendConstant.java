@@ -47,4 +47,14 @@ public final class RecommendConstant {
     /*********系统数据统一状态***********************/
 
 
+    /**********推荐算法参数配置********************************/
+    /***用户相邻个数**/
+    public static  final String NEAREST_NUM="NEAREST_NUM";
+    /**用户相邻百分比**/
+    public static  final String THRESHOLD_NUM="THRESHOLD_NUM";
+
+    /**********推荐算法参数配置********************************/
+
+
+
 }

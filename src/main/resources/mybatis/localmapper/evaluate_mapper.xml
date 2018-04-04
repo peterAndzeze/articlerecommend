@@ -1,0 +1,44 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.article.recommend.mapper.localMapper.EvaluateValueMapper" >
+    <resultMap id="BaseResultMap" type="com.article.recommend.entity.EvaluateValueInfo" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="cf_type" property="cfType" jdbcType="VARCHAR" />
+        <result column="similarity_type" property="similarityType" jdbcType="VARCHAR"/>
+        <result column="evaluator_type" property="evaluatorType" jdbcType="VARCHAR"/>
+        <result column="precision" property="precision" jdbcType="DOUBLE"/>
+        <result column="recall" property="recall"  jdbcType="DOUBLE"/>
+        <result column="score" property="score" jdbcType="DOUBLE"/>
+        <result column="creat_time" property="creatTime" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+       id,cf_type,similarity_type,evaluator_type,`precision`,recall,score,creat_time
+    </sql>
+    <!-- 获取所有-->
+    <select id="getAllEvaluatorInfos" resultMap="BaseResultMap"  >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM tb_evaluator_info
+    </select>
+    <!--  根据类型查询 -->
+    <select id="getEvaluatorInfos"  parameterType="java.lang.String" resultMap="BaseResultMap" >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM tb_evaluator_info
+        WHERE  creat_time = #{creatTime}
+    </select>
+
+    <!--  批量插入 -->
+    <insert id="insertEvaluatorInfo" parameterType="java.util.ArrayList" >
+        INSERT INTO
+        tb_evaluator_info
+        (cf_type,similarity_type,evaluator_type,`precision`,recall,score,creat_time)
+        VALUES
+        <foreach collection="evaluatorInfos" item="item" separator=",">
+            (#{item.cfType},#{item.similarityType}, #{item.evaluatorType}, #{item.precision},#{item.recall},#{item.score},#{item.creatTime})
+        </foreach>
+    </insert>
+
+
+
+</mapper>

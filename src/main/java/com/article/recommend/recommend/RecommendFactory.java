@@ -2,6 +2,7 @@ package com.article.recommend.recommend;
 
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.eval.*;
+import org.apache.mahout.cf.taste.hadoop.als.RecommenderJob;
 import org.apache.mahout.cf.taste.impl.common.FastByIDMap;
 import org.apache.mahout.cf.taste.impl.eval.AverageAbsoluteDifferenceRecommenderEvaluator;
 import org.apache.mahout.cf.taste.impl.eval.GenericRecommenderIRStatsEvaluator;
@@ -353,8 +354,19 @@ public final class RecommendFactory {
         }
     }
 
-    public static void evaluate(EVALUATOR type, RecommenderBuilder rb, DataModelBuilder mb, DataModel dm, double trainPt) throws TasteException {
-        System.out.printf("%s Evaluater Score:%s\n", type.toString(), buildEvaluator(type).evaluate(rb, mb, dm, trainPt, 1.0));
+    /**
+     * 均方差计算推荐结果得分
+     * @param type
+     * @param rb
+     * @param mb
+     * @param dm
+     * @param trainPt （训练数据）
+     * @throws TasteException
+     */
+    public static double evaluate(EVALUATOR type, RecommenderBuilder rb, DataModelBuilder mb, DataModel dm, double trainPt) throws TasteException {
+        logger.info("{} Evaluater Score:{}\n", type.toString(), buildEvaluator(type).evaluate(rb, mb, dm, trainPt, 1.0));
+        //1.0 全部数据  trainPt（训练数据比例，1-trainPt=测试数据比例）
+        return buildEvaluator(type).evaluate(rb, mb, dm, trainPt, 1.0);
     }
 
     public static void evaluate(RecommenderEvaluator re, RecommenderBuilder rb, DataModelBuilder mb, DataModel dm, double trainPt) throws TasteException {
@@ -364,11 +376,13 @@ public final class RecommendFactory {
     /**
      * statsEvaluator
      */
-    public static void statsEvaluator(RecommenderBuilder rb, DataModelBuilder mb, DataModel m, int topn) throws TasteException {
+    public static IRStatistics statsEvaluator(RecommenderBuilder rb, DataModelBuilder mb, DataModel m, int topn) throws TasteException {
         RecommenderIRStatsEvaluator evaluator = new GenericRecommenderIRStatsEvaluator();
         IRStatistics stats = evaluator.evaluate(rb, mb, m, null, topn, GenericRecommenderIRStatsEvaluator.CHOOSE_THRESHOLD, 1.0);
         // System.out.printf("Recommender IR Evaluator: %s\n", stats);
         logger.info("Recommender IR Evaluator: [Precision:{},Recall:{}]\n", stats.getPrecision(), stats.getRecall());
+        return stats;
+
     }
 
 

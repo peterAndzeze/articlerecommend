@@ -1,7 +1,9 @@
 package com.article.recommend.controller;
 
 import com.article.recommend.dbsourcemanager.PropertiesModel;
+import com.article.recommend.entity.DictionaryInfo;
 import com.article.recommend.entity.QuartzInfo;
+import com.article.recommend.service.dictionary.DictionaryService;
 import com.article.recommend.service.quartzservice.QuartzService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,9 @@ public class InitController {
     private PropertiesModel propertiesModel;
     @Autowired
     private QuartzService quartzService;
+    @Autowired
+    private DictionaryService dictionaryService;
+
     @RequestMapping("/start")
     public String  start(Model model){
         System.out.println("项目启动方法入口");
@@ -40,6 +45,8 @@ public class InitController {
                 model.addAttribute("userName",userName);
                 List<QuartzInfo> quartzInfos= quartzService.getQuartzInfos();
                 model.addAttribute("quartzInfos",quartzInfos);
+                List<DictionaryInfo> dictionaryInfos=dictionaryService.queryDictionarys();
+                model.addAttribute("dictionaryInfos",dictionaryInfos);
                 return"main";
             }else{
                 return "index";
