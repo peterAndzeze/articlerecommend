@@ -57,7 +57,7 @@
 </div>
 <h1 style="width: 100%">华丽的分割线</h1>
 <div id="dictionary" style="width: 50%;height: auto;background-color: blueviolet;">
-    <table style="text-align: center;width: 100%;height: 100%" >
+    <table style="text-align: center;width: 100%;height: 100%;border:1" >
         <thead style="text-align: center;align-content: center">字典操作
         <!--<button th:onclick="'addQuartz()'">新增字典配置</button>-->
         </thead>
@@ -78,10 +78,7 @@
             <td th:text="${dictionaryInfo.state}==0?有效:无效">状态</td>
             <td>
                 <button type="button"  th:onclick="'editDictionary('+${dictionaryInfo.id}+')'">修改</button>
-                <button type="button"  th:onclick="'deleteQuartz('+${dictionaryInfo.id}+')'">删除</button>
             </td>
-
-
         </tr>
     </table>
 </div>

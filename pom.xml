@@ -240,30 +240,91 @@
 		</dependency>
 
 		<!-- mahout -->
-		<!--<dependency>
+		<dependency>
+			<artifactId>mahout-math</artifactId>
+			<groupId>org.apache.mahout</groupId>
+			<version>0.8</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.mahout</groupId>
 			<artifactId>mahout-core</artifactId>
-			<version>0.9</version>
+			<version>0.8</version>
 			<exclusions>
+				<!--<exclusion>
+					<artifactId>mahout-math</artifactId>
+					<groupId>org.apache.mahout</groupId>
+				</exclusion>-->
+				<exclusion>
+					<artifactId>commons-codec</artifactId>
+					<groupId>commons-codec</groupId>
+				</exclusion>
+
+				<exclusion>
+					<artifactId>lucene-analyzers-common</artifactId>
+					<groupId>org.apache.lucene</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>lucene-core</artifactId>
+					<groupId>org.apache.lucene</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jackson-core-asl</artifactId>
+					<groupId>org.codehaus.jackson</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jackson-mapper-asl</artifactId>
+					<groupId>org.codehaus.jackson</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>slf4j-api</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
 				<exclusion>
 					<artifactId>hadoop-core</artifactId>
 					<groupId>org.apache.hadoop</groupId>
 				</exclusion>
 				<exclusion>
-					<artifactId>jersey-server</artifactId>
-					<groupId>com.sun.jersey</groupId>
+					<artifactId>mahout-math</artifactId>
+					<groupId>org.apache.mahout</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.mahout</groupId>
+			<artifactId>mahout-integration</artifactId>
+			<version>0.13.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.mortbay.jetty</groupId>
+					<artifactId>jetty</artifactId>
 				</exclusion>
 				<exclusion>
-					<artifactId>commons-httpclient</artifactId>
-					<groupId>commons-httpclient</groupId>
+					<groupId>org.apache.cassandra</groupId>
+					<artifactId>cassandra-all</artifactId>
 				</exclusion>
 				<exclusion>
-					<artifactId>commons-io</artifactId>
-					<groupId>commons-io</groupId>
+					<groupId>me.prettyprint</groupId>
+					<artifactId>hector-core</artifactId>
 				</exclusion>
 				<exclusion>
-					<artifactId>commons-net</artifactId>
-					<groupId>commons-net</groupId>
+					<artifactId>hadoop-common</artifactId>
+					<groupId>org.apache.hadoop</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>hadoop-annotations</artifactId>
+					<groupId>org.apache.hadoop</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>hadoop-yarn-common</artifactId>
+					<groupId>org.apache.hadoop</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>hadoop-mapreduce-client-core</artifactId>
+					<groupId>org.apache.hadoop</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>hadoop-mapreduce-client-shuffle</artifactId>
+					<groupId>org.apache.hadoop</groupId>
 				</exclusion>
 				<exclusion>
 					<artifactId>guava</artifactId>
@@ -274,16 +335,53 @@
 					<groupId>com.sun.jersey</groupId>
 				</exclusion>
 				<exclusion>
+					<artifactId>commons-codec</artifactId>
+					<groupId>commons-codec</groupId>
+				</exclusion>
+
+
+				<exclusion>
+					<artifactId>zookeeper</artifactId>
+					<groupId>org.apache.zookeeper</groupId>
+				</exclusion>
+				<exclusion>
 					<artifactId>jackson-core-asl</artifactId>
 					<groupId>org.codehaus.jackson</groupId>
 				</exclusion>
 				<exclusion>
-					<artifactId>jackson-mapper-asl</artifactId>
-					<groupId>org.codehaus.jackson</groupId>
+					<artifactId>hadoop-hdfs</artifactId>
+					<groupId>org.apache.hadoop</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>hbase-client</artifactId>
+					<groupId>org.apache.hbase</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>slf4j-api</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>hadoop-client</artifactId>
+					<groupId>org.apache.hadoop</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>mahout-mr</artifactId>
+					<groupId>org.apache.mahout</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>lucene-core</artifactId>
+					<groupId>org.apache.lucene</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>mahout-hdfs</artifactId>
+					<groupId>org.apache.mahout</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>mahout-math</artifactId>
+					<groupId>org.apache.mahout</groupId>
 				</exclusion>
 			</exclusions>
-		</dependency>-->
-
+		</dependency>
 	</dependencies>
 
 	<build>

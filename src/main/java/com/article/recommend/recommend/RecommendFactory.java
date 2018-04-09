@@ -1,8 +1,12 @@
 package com.article.recommend.recommend;
 
 import org.apache.mahout.cf.taste.common.TasteException;
-import org.apache.mahout.cf.taste.eval.*;
-import org.apache.mahout.cf.taste.hadoop.als.RecommenderJob;
+import org.apache.mahout.cf.taste.eval.DataModelBuilder;
+import org.apache.mahout.cf.taste.eval.IRStatistics;
+import org.apache.mahout.cf.taste.eval.RecommenderBuilder;
+import org.apache.mahout.cf.taste.eval.RecommenderEvaluator;
+import org.apache.mahout.cf.taste.eval.RecommenderIRStatsEvaluator;
+import org.apache.mahout.cf.taste.hadoop.item.RecommenderJob;
 import org.apache.mahout.cf.taste.impl.common.FastByIDMap;
 import org.apache.mahout.cf.taste.impl.eval.AverageAbsoluteDifferenceRecommenderEvaluator;
 import org.apache.mahout.cf.taste.impl.eval.GenericRecommenderIRStatsEvaluator;
@@ -17,7 +21,13 @@ import org.apache.mahout.cf.taste.impl.recommender.GenericItemBasedRecommender;
 import org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;
 import org.apache.mahout.cf.taste.impl.recommender.svd.Factorizer;
 import org.apache.mahout.cf.taste.impl.recommender.svd.SVDRecommender;
-import org.apache.mahout.cf.taste.impl.similarity.*;
+import org.apache.mahout.cf.taste.impl.similarity.CityBlockSimilarity;
+import org.apache.mahout.cf.taste.impl.similarity.EuclideanDistanceSimilarity;
+import org.apache.mahout.cf.taste.impl.similarity.LogLikelihoodSimilarity;
+import org.apache.mahout.cf.taste.impl.similarity.PearsonCorrelationSimilarity;
+import org.apache.mahout.cf.taste.impl.similarity.SpearmanCorrelationSimilarity;
+import org.apache.mahout.cf.taste.impl.similarity.TanimotoCoefficientSimilarity;
+import org.apache.mahout.cf.taste.impl.similarity.UncenteredCosineSimilarity;
 import org.apache.mahout.cf.taste.model.DataModel;
 import org.apache.mahout.cf.taste.model.PreferenceArray;
 import org.apache.mahout.cf.taste.neighborhood.UserNeighborhood;
@@ -39,7 +49,7 @@ public final class RecommendFactory {
      * @param file
      * @return
      */
-    public static DataModel buildDateMode(String file) throws IOException {
+    public static DataModel buildDateModel(String file) throws IOException {
         return new FileDataModel(new File(file));
     }
 
@@ -206,6 +216,14 @@ public final class RecommendFactory {
         };
     }
 
+    public static Recommender userRecommender(DataModel dataModel,final UserSimilarity us, final UserNeighborhood un, boolean pref){
+         if(pref){
+             return new GenericUserBasedRecommender(dataModel, un, us);
+         }
+        return new GenericBooleanPrefUserBasedRecommender(dataModel, un, us);
+    }
+
+
     /**
      * GenericItemBasedRecommender
      * 算法：
@@ -303,8 +321,8 @@ public final class RecommendFactory {
      * 用户数目少的时候非常合适
      * 计算速度快
      * 需要预先计算
-     * @param cs
-     * @param n
+    // * @param cs
+    // * @param n
      * @return
      * @throws TasteException
      */
@@ -364,13 +382,35 @@ public final class RecommendFactory {
      * @throws TasteException
      */
     public static double evaluate(EVALUATOR type, RecommenderBuilder rb, DataModelBuilder mb, DataModel dm, double trainPt) throws TasteException {
-        logger.info("{} Evaluater Score:{}\n", type.toString(), buildEvaluator(type).evaluate(rb, mb, dm, trainPt, 1.0));
         //1.0 全部数据  trainPt（训练数据比例，1-trainPt=测试数据比例）
-        return buildEvaluator(type).evaluate(rb, mb, dm, trainPt, 1.0);
+        Double score= buildEvaluator(type).evaluate(rb, mb, dm, trainPt, 0.25);
+        logger.info("{} Evaluater Score:{}\n", type.toString(),score);
+
+        /*RecommenderEvaluator evaluator = new AverageAbsoluteDifferenceRecommenderEvaluator();
+        RecommenderBuilder builder = new RecommenderBuilder(){
+            @Override
+            public Recommender buildRecommender(DataModel model) throws TasteException{
+                UserSimilarity similarity = new PearsonCorrelationSimilarity(model);
+                UserNeighborhood neighborhood = new NearestNUserNeighborhood(2, similarity, model);
+                return new GenericUserBasedRecommender(model, neighborhood, similarity);
+            }
+        };
+
+        //这里的数据意思是训练70%，测试30%的数据
+        //这里的数据如果显示出现了NAN，就表示计算数据出现了问题:1,程序不执行了，NAN: not a number
+        //你只需要修改一下参数，我这里改成了0.9
+        double score = 0;
+        try {
+            score = evaluator.evaluate(builder, null, dm, trainPt, 0.001);
+        } catch (TasteException e) {
+            e.printStackTrace();
+        }*/
+        System.out.println("*****************"+score);
+        return score ;
     }
 
     public static void evaluate(RecommenderEvaluator re, RecommenderBuilder rb, DataModelBuilder mb, DataModel dm, double trainPt) throws TasteException {
-        System.out.printf("Evaluater Score:%s\n", re.evaluate(rb, mb, dm, trainPt, 1.0));
+        System.out.printf("Evaluater Score:%s\n", re.evaluate(rb, mb, dm, trainPt, 0.01));
     }
 
     /**
@@ -378,7 +418,7 @@ public final class RecommendFactory {
      */
     public static IRStatistics statsEvaluator(RecommenderBuilder rb, DataModelBuilder mb, DataModel m, int topn) throws TasteException {
         RecommenderIRStatsEvaluator evaluator = new GenericRecommenderIRStatsEvaluator();
-        IRStatistics stats = evaluator.evaluate(rb, mb, m, null, topn, GenericRecommenderIRStatsEvaluator.CHOOSE_THRESHOLD, 1.0);
+        IRStatistics stats = evaluator.evaluate(rb, mb, m, null, topn, GenericRecommenderIRStatsEvaluator.CHOOSE_THRESHOLD, 0.25);
         // System.out.printf("Recommender IR Evaluator: %s\n", stats);
         logger.info("Recommender IR Evaluator: [Precision:{},Recall:{}]\n", stats.getPrecision(), stats.getRecall());
         return stats;

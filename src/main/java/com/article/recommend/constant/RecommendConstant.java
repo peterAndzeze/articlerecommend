@@ -52,6 +52,14 @@ public final class RecommendConstant {
     public static  final String NEAREST_NUM="NEAREST_NUM";
     /**用户相邻百分比**/
     public static  final String THRESHOLD_NUM="THRESHOLD_NUM";
+    /**抽取多少**/
+    public static  final String TOP_NUM="TOP_NUM";
+    /**多少数据参与计算评分***/
+    public static  final  String TRAINPT_NUM="trainPt";
+    /**那些距离参与**/
+    public static  final  String USER_SIM_STATE="user_sim_state";
+    /***取值个数**/
+    public static  final  String RECOMMENDER_NUM="RECOMMENDER_NUM";
 
     /**********推荐算法参数配置********************************/
 

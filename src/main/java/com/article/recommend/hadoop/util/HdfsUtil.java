@@ -199,6 +199,7 @@ public final class HdfsUtil {
         FSDataInputStream fsDataInputStream=null;
         try{
             fileSystem=HadoopUtil.createFileSystem(null);
+
             Path newPath=new Path(hdfsFile);
             if(fileSystem.exists(newPath)){
                 fsDataInputStream=fileSystem.open(newPath);
@@ -233,12 +234,10 @@ public final class HdfsUtil {
         //如果存在就删除
         delHdfs(file);
         try {
-            System.out.println("开始时间："+System.currentTimeMillis());
+            logger.info("开始时间:{}",System.currentTimeMillis());
             FileUtil.copyMerge(src.getFileSystem(conf), src,
                     dst.getFileSystem(conf), dst, false, conf, null);
-            logger.info("合并{}成功",folder);
-            System.out.println("结束时间："+System.currentTimeMillis());
-
+            logger.info("合并{}成功",folder,"结束时间:{}",System.currentTimeMillis());
         } catch (IOException e) {
             logger.error("合并文件{}失败:{}",folder,e.getMessage());
             e.printStackTrace();

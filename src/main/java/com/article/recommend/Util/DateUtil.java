@@ -2,6 +2,9 @@ package com.article.recommend.Util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -68,18 +71,21 @@ public class DateUtil {
      * @return
      */
     public static int compareDateStr(String beginTime,String endTime) throws ParseException {
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-
-            Date bt=sdf.parse(beginTime);
-            Date et=sdf.parse(endTime);
-            if (bt.getTime()>et.getTime()){//大于
-                return 1;
-            }else if(bt.getTime()<et.getTime()){//小于
-                return -1;
-            }else {//等于
-                return  0;
-            }
-
+        LocalDate l1=LocalDate.parse(beginTime);
+        LocalDate l2=LocalDate.parse(endTime);
+        return l1.compareTo(l2);
     }
+
+
+    public  static String localDateToString(LocalDateTime dateTime,String patten){
+        DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern(patten);
+        return dateTime.format(dateTimeFormatter);
+    }
+
+
+
+
+
+
 
 }

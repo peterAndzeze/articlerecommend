@@ -37,7 +37,8 @@ public class HdfsTest {
       String newFile=RecommendConstant.BASEPATH+"userprefs/tmp.txt";
      HdfsUtil.copyMerge(filesPath,newFile);
 
-      String content= HdfsUtil.readHdfsFile(RecommendConstant.BASEPATH+"userprefs/tmp.txt");System.out.println(content);
+     // String content= HdfsUtil.readHdfsFile(RecommendConstant.BASEPATH+"userprefs/tmp.txt");
+      //System.out.println(content);
     }
 
 }
